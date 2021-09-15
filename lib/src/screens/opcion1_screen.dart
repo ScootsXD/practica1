@@ -40,7 +40,7 @@ class Opcion1Screen extends StatelessWidget
                 child: Text('Calcular'),
                 onPressed: ()
                 {
-                  int val = int.tryParse(textController.text) ?? 42069;
+                  double val = double.tryParse(textController.text) ?? 42069;
 
                   if(val != 42069)
                   {
