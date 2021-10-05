@@ -17,6 +17,10 @@ class DashBoardScreen extends StatelessWidget
         child: ListView(
           children: [
             UserAccountsDrawerHeader(
+              onDetailsPressed: ()
+              {
+                Navigator.pushNamed(context, '/perfil');
+              },
               accountName: Text('Luciano Lozano Duran'),
               accountEmail: Text('17031278@itcelaya.edu.mx'),
               currentAccountPicture: CircleAvatar(
@@ -34,6 +38,28 @@ class DashBoardScreen extends StatelessWidget
               onTap: ()
               {
                 Navigator.pushNamed(context, '/opc1');
+              },
+            ),
+            ListTile(
+              title: Text('Intenciones'),
+              subtitle: Text('Intenciones implicitas'),
+              leading: Icon(Icons.phone_android),
+              trailing: Icon(Icons.chevron_right),
+              onTap: ()
+              {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, '/intenciones');
+              },
+            ),
+            ListTile(
+              title: Text('Notas'),
+              subtitle: Text('CRUD Notas'),
+              leading: Icon(Icons.note),
+              trailing: Icon(Icons.chevron_right),
+              onTap: ()
+              {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, '/notas');
               },
             )
           ],

@@ -50,7 +50,7 @@ class _loginScreenState extends State<loginScreen>
       {
         isLoading = true;
         setState(() {});
-        Future.delayed(Duration(seconds: 15), (){
+        Future.delayed(Duration(seconds: 3), (){
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => DashBoardScreen())
