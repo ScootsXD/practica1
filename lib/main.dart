@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:practica/src/screens/agregar_nota_screen.dart';
 import 'package:practica/src/screens/intenciones_screen.dart';
 import 'package:practica/src/screens/login_screen.dart';
+import 'package:practica/src/screens/movies_screens/actores_screen.dart';
+import 'package:practica/src/screens/movies_screens/detail_favorito_screen.dart';
+import 'package:practica/src/screens/movies_screens/detail_screen.dart';
+import 'package:practica/src/screens/movies_screens/favoritos_screen.dart';
+import 'package:practica/src/screens/movies_screens/popular_screen.dart';
+import 'package:practica/src/screens/movies_screens/trailer_screen.dart';
 import 'package:practica/src/screens/notas_screen.dart';
 import 'package:practica/src/screens/opcion1_screen.dart';
 import 'package:practica/src/screens/perfil_screen.dart';
@@ -30,6 +36,12 @@ class MyApp extends StatelessWidget
         '/agregar' : (BuildContext context) => AgregarNotaScreen(),
         '/perfil' : (BuildContext context) => PerfilScreen(),
         '/prueba' : (BuildContext context) => PruebaScreen(),
+        '/movie' : (BuildContext context) => PopularScreen(),
+        '/detail' : (BuildContext context) => DetailScreen(),
+        '/detailfav' : (BuildContext context) => DetailFavScreen(),
+        '/actores' : (BuildContext context) => ActoresScreen(),
+        '/trailer' : (BuildContext context) => TrailerScreen(),
+        '/favoritos' : (BuildContext context) => FavoritosScreen()
       },
 
       debugShowCheckedModeBanner: false,
