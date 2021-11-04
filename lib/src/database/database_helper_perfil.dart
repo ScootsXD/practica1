@@ -52,7 +52,7 @@ class DatabaseHelperPerfil
   Future<int> update(Map<String, dynamic> row) async
   {
     var conexion = await database;
-    return conexion!.update(_nombreTBL, row, where: 'id = $row["id"]');
+    return conexion!.update(_nombreTBL, row, where: 'id = 1');
   }
 
   Future<int> delete(int id) async
@@ -61,7 +61,7 @@ class DatabaseHelperPerfil
     return await conexion!.delete(_nombreTBL, where: 'id = ?', whereArgs: [id]);
   }
 
-  Future<List<PerfilModel>> getAllNotes() async
+  Future<List<PerfilModel>> getPerfil() async
   {
     var conexion = await database;
     var resultado = await conexion!.query(_nombreTBL);

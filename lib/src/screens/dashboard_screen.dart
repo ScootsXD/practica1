@@ -72,6 +72,17 @@ class DashBoardScreen extends StatelessWidget
                 Navigator.pop(context);
                 Navigator.pushNamed(context, '/movie');
               },
+            ),
+            ListTile(
+              title: Text('Images'),
+              subtitle: Text('API REST'),
+              leading: Icon(Icons.image),
+              trailing: Icon(Icons.chevron_right),
+              onTap: ()
+              {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, '/main');
+              },
             )
           ],
         )

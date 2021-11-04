@@ -40,6 +40,7 @@ dependencies:
   sqflite: ^2.0.0+4
   path_provider: ^2.0.4
   http: ^0.13.3
+  unsplash_client: ^2.1.0
   
   youtube_player_iframe: ^2.0.0
 

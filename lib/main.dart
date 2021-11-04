@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:practica/src/screens/agregar_nota_screen.dart';
+import 'package:practica/src/screens/images_screens/image_screen.dart';
+import 'package:practica/src/screens/images_screens/main_screen.dart';
 import 'package:practica/src/screens/intenciones_screen.dart';
 import 'package:practica/src/screens/login_screen.dart';
 import 'package:practica/src/screens/movies_screens/actores_screen.dart';
@@ -10,6 +12,7 @@ import 'package:practica/src/screens/movies_screens/popular_screen.dart';
 import 'package:practica/src/screens/movies_screens/trailer_screen.dart';
 import 'package:practica/src/screens/notas_screen.dart';
 import 'package:practica/src/screens/opcion1_screen.dart';
+import 'package:practica/src/screens/perfil_editar_screen.dart';
 import 'package:practica/src/screens/perfil_screen.dart';
 import 'package:practica/src/screens/prueba_screen.dart';
 import 'package:practica/src/screens/splash_screen.dart';
@@ -35,13 +38,16 @@ class MyApp extends StatelessWidget
         '/notas' : (BuildContext context) => NotasScreen(),
         '/agregar' : (BuildContext context) => AgregarNotaScreen(),
         '/perfil' : (BuildContext context) => PerfilScreen(),
+        '/editar' : (BuildContext context) => PerfilEditarScreen(),
         '/prueba' : (BuildContext context) => PruebaScreen(),
         '/movie' : (BuildContext context) => PopularScreen(),
         '/detail' : (BuildContext context) => DetailScreen(),
         '/detailfav' : (BuildContext context) => DetailFavScreen(),
         '/actores' : (BuildContext context) => ActoresScreen(),
         '/trailer' : (BuildContext context) => TrailerScreen(),
-        '/favoritos' : (BuildContext context) => FavoritosScreen()
+        '/favoritos' : (BuildContext context) => FavoritosScreen(),
+        '/main' : (BuildContext context) => MainScreen(),
+        '/image' : (BuildContext context) => ImageScreen(),
       },
 
       debugShowCheckedModeBanner: false,

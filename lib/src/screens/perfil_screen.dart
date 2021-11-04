@@ -53,31 +53,41 @@ class MapScreenState extends State<PerfilScreen> with SingleTickerProviderStateM
 
   File? imageFile;
 
-  bool _status = true;
   final FocusNode myFocusNode = FocusNode();
+
+  List<PerfilModel>? perfil;
 
   @override
   void initState()
   {
+    getData();
     super.initState();
+  }
+
+  Future<void> getData() async
+  {
     _databaseHelper = DatabaseHelperPerfil();
+    perfil = await _databaseHelper.getPerfil();
+    print(perfil?[0].numero);
+    setState(() {});
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
     return Scaffold(
       body: Container(
-      color: Colors.white,
-      child: ListView(
-        children: <Widget>[
-          Column(
-            children: <Widget>[
-              Container(
-                height: 250.0,
-                color: Colors.white,
-                child: Column(
-                  children: <Widget>[
-                    Padding(
+        color: Colors.white,
+        child: ListView(
+          children: <Widget>[
+            Column(
+              children: <Widget>[
+                Container(
+                  height: 250.0,
+                  color: Colors.white,
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
                         padding: EdgeInsets.only(left: 20.0, top: 20.0),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,112 +101,117 @@ class MapScreenState extends State<PerfilScreen> with SingleTickerProviderStateM
                             Padding(
                               padding: EdgeInsets.only(left: 25.0),
                               child: Text('Perfil',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20.0,
-                                      fontFamily: 'sans-serif-light',
-                                      color: Colors.black)),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0,
+                                  fontFamily: 'sans-serif-light',
+                                  color: Colors.black
+                                )
+                              ),
                             )
                           ],
-                        )),
-                    Padding(
-                      padding: EdgeInsets.only(top: 20.0),
-                      child: Stack(fit: StackFit.loose, children: <Widget>[
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        )
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 20.0),
+                        child: Stack(
+                          fit: StackFit.loose,
                           children: <Widget>[
-                            imageFile == null ?
-                            (
-                              Container(
-                                  width: 140.0,
-                                  height: 140.0,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                      image: new ExactAssetImage('assets/logo_itc.png'),
-                                      fit: BoxFit.cover,
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                imageFile == null ?
+                                (
+                                  Container(
+                                    width: 140.0,
+                                    height: 140.0,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                        image: new ExactAssetImage('assets/logo_itc.png'),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    )
+                                  )
+                                )
+                                :
+                                (
+                                  Container(
+                                    child: Image.file(imageFile!),
+                                    width: 140.0,
+                                    height: 140.0,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      // image: DecorationImage(
+                                      //   image: Image.file(imageFile),
+                                      //   fit: BoxFit.cover,
+                                      // ),
+                                    )
+                                  )
+                                )
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 90.0, right: 100.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  CircleAvatar(
+                                    backgroundColor: Colors.red,
+                                    radius: 25.0,
+                                    child: IconButton(
+                                      icon: Icon(Icons.camera_alt),
+                                      color: Colors.white,
+                                      onPressed: ()
+                                      {
+                                        print(imageFile);
+                                        print("Selecciono tomar foto");
+                                        _getFromCamera();
+                                      },
                                     ),
                                   )
+                                ],
                               )
-                            )
-                            :
-                            (
-                              Container(
-                                child: Image.file(imageFile!),
-                                  width: 140.0,
-                                  height: 140.0,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    // image: DecorationImage(
-                                    //   image: Image.file(imageFile),
-                                    //   fit: BoxFit.cover,
-                                    // ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 90.0, left: 100.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  CircleAvatar(
+                                    backgroundColor: Colors.blue,
+                                    radius: 25.0,
+                                    child: IconButton(
+                                      icon: Icon(Icons.photo),
+                                      color: Colors.white,
+                                      onPressed: ()
+                                      {
+                                        print(imageFile);
+                                        print("Selecciono seleccionar foto");
+                                        _getFromGallery();
+                                      },
+                                    ),
                                   )
+                                ],
                               )
-                            )
-                          ],
+                            ),
+                          ]
                         ),
-                        Padding(
-                            padding: EdgeInsets.only(top: 90.0, right: 100.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                CircleAvatar(
-                                  backgroundColor: Colors.red,
-                                  radius: 25.0,
-                                  child: IconButton(
-                                    icon: Icon(Icons.camera_alt),
-                                    color: Colors.white,
-                                    onPressed: ()
-                                    {
-                                      print(imageFile);
-                                      print("Selecciono tomar foto");
-                                      _getFromCamera();
-                                    },
-                                  ),
-                                )
-                              ],
-                            )
-                        ),
-                        Padding(
-                            padding: EdgeInsets.only(top: 90.0, left: 100.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                CircleAvatar(
-                                  backgroundColor: Colors.blue,
-                                  radius: 25.0,
-                                  child: IconButton(
-                                    icon: Icon(Icons.photo),
-                                    color: Colors.white,
-                                    onPressed: ()
-                                    {
-                                      print(imageFile);
-                                      print("Selecciono seleccionar foto");
-                                      _getFromGallery();
-                                    },
-                                  ),
-                                )
-                              ],
-                            )
-                        ),
-                      ]),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                color: Color(0xffFFFFFF),
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 25.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                          padding: EdgeInsets.only(
-                              left: 25.0, right: 25.0, top: 25.0),
+                Container(
+                  color: Color(0xffFFFFFF),
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 25.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 25.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             mainAxisSize: MainAxisSize.max,
@@ -208,8 +223,9 @@ class MapScreenState extends State<PerfilScreen> with SingleTickerProviderStateM
                                   Text(
                                     'Informacion',
                                     style: TextStyle(
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.bold),
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold
+                                    ),
                                   ),
                                 ],
                               ),
@@ -217,14 +233,14 @@ class MapScreenState extends State<PerfilScreen> with SingleTickerProviderStateM
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
-                                  _status ? _getEditIcon() : Container(),
+                                  _getEditIcon(),
                                 ],
                               )
                             ],
-                          )),
-                      Padding(
-                          padding: EdgeInsets.only(
-                              left: 25.0, right: 25.0, top: 25.0),
+                          )
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 25.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
@@ -233,35 +249,19 @@ class MapScreenState extends State<PerfilScreen> with SingleTickerProviderStateM
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   Text(
-                                    'Nombre',
+                                    perfil == null ? "Cargando" : "Nombre: " + perfil![0].nombre!,
                                     style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold
+                                    ),
                                   ),
                                 ],
                               ),
                             ],
-                          )),
-                      Padding(
-                          padding: EdgeInsets.only(
-                              left: 25.0, right: 25.0, top: 2.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              Flexible(
-                                child: TextField(
-                                  decoration: const InputDecoration(
-                                    hintText: "Nombre",
-                                  ),
-                                  enabled: !_status,
-                                  autofocus: !_status,
-                                ),
-                              ),
-                            ],
-                          )),
-                      Padding(
-                          padding: EdgeInsets.only(
-                              left: 25.0, right: 25.0, top: 25.0),
+                          )
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 25.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
@@ -270,35 +270,19 @@ class MapScreenState extends State<PerfilScreen> with SingleTickerProviderStateM
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   Text(
-                                    'Apellido Paterno',
+                                    perfil == null ? "Cargando" : "Apellido Paterno: " + perfil![0].apellido_paterno!,
                                     style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold
+                                    ),
                                   ),
                                 ],
                               ),
                             ],
-                          )),
-                      Padding(
-                          padding: EdgeInsets.only(
-                              left: 25.0, right: 25.0, top: 2.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              Flexible(
-                                child: TextField(
-                                  decoration: const InputDecoration(
-                                    hintText: "Apellido Paterno",
-                                  ),
-                                  enabled: !_status,
-                                  autofocus: !_status,
-                                ),
-                              ),
-                            ],
-                          )),
-                      Padding(
-                          padding: EdgeInsets.only(
-                              left: 25.0, right: 25.0, top: 25.0),
+                          )
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 25.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
@@ -307,35 +291,19 @@ class MapScreenState extends State<PerfilScreen> with SingleTickerProviderStateM
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   Text(
-                                    'Apellido Materno',
+                                    perfil == null ? "Cargando" : "Apellido Materno: " + perfil![0].apellido_materno!,
                                     style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold
+                                    ),
                                   ),
                                 ],
                               ),
                             ],
-                          )),
-                      Padding(
-                          padding: EdgeInsets.only(
-                              left: 25.0, right: 25.0, top: 2.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              Flexible(
-                                child: TextField(
-                                  decoration: const InputDecoration(
-                                    hintText: "Apellido Materno",
-                                  ),
-                                  enabled: !_status,
-                                  autofocus: !_status,
-                                ),
-                              ),
-                            ],
-                          )),
-                      Padding(
-                          padding: EdgeInsets.only(
-                              left: 25.0, right: 25.0, top: 25.0),
+                          )
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 25.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
@@ -344,33 +312,19 @@ class MapScreenState extends State<PerfilScreen> with SingleTickerProviderStateM
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   Text(
-                                    'Numero de telefono',
+                                    perfil == null ? "Cargando" : "Numero de telefono: " + perfil![0].numero!,
                                     style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold
+                                    ),
                                   ),
                                 ],
                               ),
                             ],
-                          )),
-                      Padding(
-                          padding: EdgeInsets.only(
-                              left: 25.0, right: 25.0, top: 2.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              Flexible(
-                                child: TextField(
-                                  decoration: const InputDecoration(
-                                      hintText: "Numero de telefono"),
-                                  enabled: !_status,
-                                ),
-                              ),
-                            ],
-                          )),
-                      Padding(
-                          padding: EdgeInsets.only(
-                              left: 25.0, right: 25.0, top: 25.0),
+                          )
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 25.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
@@ -379,101 +333,38 @@ class MapScreenState extends State<PerfilScreen> with SingleTickerProviderStateM
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   Text(
-                                    'Correo Electronico',
+                                    perfil == null ? "Cargando" : "Correo Electronico: " + perfil![0].correo!,
                                     style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold
+                                    ),
                                   ),
                                 ],
                               ),
                             ],
-                          )),
-                      Padding(
-                          padding: EdgeInsets.only(
-                              left: 25.0, right: 25.0, top: 2.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              Flexible(
-                                child: TextField(
-                                  decoration:
-                                      const InputDecoration(hintText: "Email"),
-                                  enabled: !_status,
-                                ),
-                              ),
-                            ],
-                          )),
-                      !_status ? _getActionButtons() : Container(),
-                    ],
+                          )
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              )
-            ],
-          ),
-        ],
-      ),
-    ));
-  }
-
-  @override
-  void dispose() {
-    myFocusNode.dispose();
-    super.dispose();
-  }
-
-  Widget _getActionButtons() {
-    return Padding(
-      padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 45.0),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(right: 10.0),
-              child: Container(
-                  child: RaisedButton(
-                child: Text("Save"),
-                textColor: Colors.white,
-                color: Colors.green,
-                onPressed: () {
-                  setState(() {
-                    _status = true;
-                    FocusScope.of(context).requestFocus(FocusNode());
-                  });
-                },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0)),
-              )),
+                )
+              ],
             ),
-            flex: 2,
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(left: 10.0),
-              child: Container(
-                  child: RaisedButton(
-                child: Text("Cancel"),
-                textColor: Colors.white,
-                color: Colors.red,
-                onPressed: () {
-                  setState(() {
-                    _status = true;
-                    FocusScope.of(context).requestFocus(FocusNode());
-                  });
-                },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0)),
-              )),
-            ),
-            flex: 2,
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  Widget _getEditIcon() {
+  @override
+  void dispose()
+  {
+    myFocusNode.dispose();
+    super.dispose();
+  }
+
+  Widget _getEditIcon()
+  {
     return GestureDetector(
       child: CircleAvatar(
         backgroundColor: Colors.red,
@@ -484,10 +375,11 @@ class MapScreenState extends State<PerfilScreen> with SingleTickerProviderStateM
           size: 16.0,
         ),
       ),
-      onTap: () {
-        setState(() {
-          _status = false;
-        });
+      onTap: ()
+      {
+        Navigator.pushNamed(
+          context, '/editar'
+        );
       },
     );
   }
